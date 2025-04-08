@@ -18,11 +18,11 @@ set(LIB_SOURCES
         internal/Pattern.cpp
         internal/ReplaceTemplate.cpp
         internal/SnippetIndex.cpp)
+# use FetchContent_Declare replace find_package
+# find_package(yaml-cpp REQUIRED)
+# include_directories(${YAML_CPP_INCLUDE_DIR})
 
-find_package(yaml-cpp REQUIRED)
-include_directories(${YAML_CPP_INCLUDE_DIR})
-
-find_package(re2)
+# find_package(re2)
 
 # this is the "object library" target: compiles the sources only once
 add_library(objlib OBJECT ${LIB_SOURCES})
