@@ -124,7 +124,19 @@ void fill_agent_store(const YAML::Node& node,
 
 struct UAStore {
   explicit UAStore(const std::string& regexes_file_path) {
-    auto regexes = YAML::LoadFile(regexes_file_path);
+    // temporary changes for support file not available
+    auto make_regexes_from_file =
+        [](const std::string &regexes_file_path_or_content) {
+          if (regexes_file_path_or_content.size() > 4 &&
+              regexes_file_path_or_content.substr(
+                  regexes_file_path_or_content.size() - 4) == ".yml") {
+            return YAML::LoadFile(regexes_file_path_or_content);
+          } else {
+            return YAML::Load(regexes_file_path_or_content);
+          }
+        };
+
+    auto regexes = make_regexes_from_file(regexes_file_path);
 
     const auto& user_agent_parsers = regexes["user_agent_parsers"];
     for (const auto& user_agent : user_agent_parsers) {
